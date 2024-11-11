@@ -8,7 +8,7 @@ export interface musicProps{
 
 const MUSIC_PROPS : musicProps = {
   id: undefined,
-  jacket: "DummyLinkToJacket",
+  cover: "DummyLinkToJacket",
   title: "DummyTitle",
   description: "DummyDescription",
   author: "DummyAuthor"
