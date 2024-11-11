@@ -1,6 +1,6 @@
 export interface musicProps{
   id? : string,
-  jacket?: string,
+  cover?: string,
   title?: string,
   description?: string,
   author?: string
