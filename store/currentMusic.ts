@@ -1,6 +1,6 @@
 export interface musicProps{
   id? : string,
-  cover?: string,
+  cover?: Blob,
   title?: string,
   description?: string,
   author?: string
@@ -8,10 +8,10 @@ export interface musicProps{
 
 const MUSIC_PROPS : musicProps = {
   id: undefined,
-  cover: "DummyLinkToJacket",
-  title: "DummyTitle",
-  description: "DummyDescription",
-  author: "DummyAuthor"
+  cover: undefined,
+  title: undefined,
+  description: undefined,
+  author: undefined,
   
 }
 

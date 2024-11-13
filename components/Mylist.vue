@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { _padding } from '#tailwind-config/theme';
 import CreateForm from '~/composable/CreateForm.vue';
+import DropDownIcon from '~/composable/DropDownIcon.vue';
 import { addDataBase, getDataBase, getDataBaseAll, useDatabase } from '~/composable/hooks/useDatabase';
 import { setCurrentMusic, state, type musicProps } from '~/store/currentMusic';
 
@@ -34,6 +36,11 @@ const updateCurrentMusic = (newData : musicProps) => {
     setCurrentMusic(newData);
 }
 
+const getURL = (blob: Blob | undefined) => {
+    if(!blob) return '';
+    return URL.createObjectURL(blob);
+}
+
 </script>
 
 <template>
@@ -47,23 +54,29 @@ const updateCurrentMusic = (newData : musicProps) => {
         </div>
     </UModal>
 
-    <UCard>
-    <template #header>
-        <div class="flex justify-between text-2xl items-center" >
-            <span><UIcon name="material-symbols-light:book-4-outline" class="h-7 w-7 pr-10 align-middle"/>mylists</span>
-            <UDropdown :items="createPlaylistMethod" :popper="{ placement: 'bottom-start' }">
-                <UIcon name="material-symbols:add-rounded" class="h-8 w-8 align-middle cursor-pointer"/>
-            </UDropdown>
-        </div>
-    </template>
-
-
-    <template #footer>
-        <div class="flex flex-col gap-2">
-            <div v-for="mylist in mylists" :key="mylist.title" class="cursor-pointer" @click="updateCurrentMusic(mylist)">
-                <UAlert  :title="mylist.title" :description="mylist.description" class="transition-all hover:bg-neutral-200" />
+    <UCard class="h-full grid grid-rows-[max-content_1fr] [&>*]:overflow-auto [&>*]:px-2">
+        <template #header>
+            <div class="flex justify-between text-2xl items-center" >
+                <span><UIcon name="material-symbols-light:book-4-outline" class="h-7 pr-10 align-middle" style="aspect-ratio: 1/1;"/>mylists</span>
+                <DropDownIcon :menu="createPlaylistMethod" icon="material-symbols:add-rounded"/>
             </div>
-        </div>
-    </template>
+        </template>
+
+
+        <template #footer>
+            <div class="h-full overflow-auto">
+                <div class="flex flex-col gap-2 px-2 py-2">
+                    <div v-for="mylist in mylists" :key="mylist.title" class="cursor-pointer" @click="updateCurrentMusic(mylist)">
+                        <UAlert :title="mylist.title" :description="mylist.description" class="transition-all hover:bg-neutral-200 p-2.5" >
+                            <template #icon>
+                                <div class="h-16 rounded overflow-hidden" style="aspect-ratio: 1/1;">
+                                    <img :src="getURL(mylist.cover)" class="w-full h-full object-cover">
+                                </div>
+                            </template>
+                        </UAlert>
+                    </div>
+                </div>
+            </div>
+        </template>
     </UCard>
 </template>
