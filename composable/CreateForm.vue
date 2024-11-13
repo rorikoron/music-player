@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { z } from 'zod';
-import type { musicProps } from '~/store/currentMusic';
+import type { mylistProps } from '~/store/currentMylist';
+import { eventToBlob } from '~/util/media';
 
 const props = defineProps({
     onSubmit: {
@@ -15,32 +16,16 @@ const schema = z.object({
     cover: z.custom<Blob>(),
 })
 
-const formProps = ref<musicProps>({
+const formProps = ref<mylistProps>({
   title: undefined,
   description: undefined,
   cover: undefined
 })
 
-const handleFileChange = async (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files[0]) {
-    const file = target.files[0];
-    
-    // FileReaderを使ってBlobに変換
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    
-    reader.onload = () => {
-      const arrayBuffer = reader.result as ArrayBuffer;
-      const blob = new Blob([arrayBuffer], { type: file.type });
-      formProps.value.cover = blob;  // formProps.coverにBlobを格納
-    };
+async function handleFileChange(e : Event){
+  formProps.value.cover = await eventToBlob(e);
+}
 
-    reader.onerror = (error) => {
-      console.error('Error reading file:', error);
-    };
-  }
-};
 </script>
 
 <template>

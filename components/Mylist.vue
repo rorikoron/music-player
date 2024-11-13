@@ -2,10 +2,10 @@
 import { _padding } from '#tailwind-config/theme';
 import CreateForm from '~/composable/CreateForm.vue';
 import DropDownIcon from '~/composable/DropDownIcon.vue';
-import { addDataBase, getDataBase, getDataBaseAll, useDatabase } from '~/composable/hooks/useDatabase';
-import { setCurrentMusic, state, type musicProps } from '~/store/currentMusic';
+import {  addMylist, getMylistAll, } from '~/composable/hooks/useDatabase';
+import { setCurrentMusic, state, type mylistProps } from '~/store/currentMylist';
 
-const mylists = ref<musicProps[]>([]);
+const mylists = ref<mylistProps[]>([]);
 const isCreate = ref(false);
 const createPlaylistMethod = [
     [{
@@ -19,7 +19,7 @@ const createPlaylistMethod = [
 ]
 
 const refreshPlaylist = async () => {
-    const data = await getDataBaseAll();
+    const data = await getMylistAll();
     mylists.value = data;
 }
 
@@ -27,12 +27,12 @@ onMounted( async ()=> {
     refreshPlaylist();
 })
 
-const createPlaylist = async (props: musicProps) => {
+const createPlaylist = async (props: mylistProps) => {
     const data = Object.assign({} , props);
-    addDataBase(data);
+    addMylist(data);
     refreshPlaylist();
 }
-const updateCurrentMusic = (newData : musicProps) => {
+const updateCurrentMusic = (newData : mylistProps) => {
     setCurrentMusic(newData);
 }
 
