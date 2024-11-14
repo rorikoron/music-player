@@ -8,8 +8,8 @@ const props = defineProps<{
 </script>
 
 <template>
-        <td>{{ props.idx }}</td>
-        <td>{{ props.music.title }}</td>
-        <td>{{ props.music.lastUpdate }}</td>
-        <td>{{ props.music.audioLength }}</td>
+    <span>{{ props.idx }}</span>
+    <span>{{ props.music.title }}</span>
+    <span>{{ props.music.lastUpdate }}</span>
+    <span>{{ props.music.audioLength }}</span>
 </template>
