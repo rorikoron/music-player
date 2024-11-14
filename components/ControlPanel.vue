@@ -24,7 +24,7 @@ const handleFileChange = async (e : Event) => {
 
   const title = await eventToFileName(e);
   const date = new Date();
-  const lastUpdate = date.getFullYear() + '/' + date.getMonth()+1 + '/' + date.getDate();
+  const lastUpdate = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
   const audioLength = await getAudioDuration(blob);
   addMusic({title, lastUpdate, blob, audioLength, mylistId: state.id!});
 

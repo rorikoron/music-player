@@ -48,7 +48,7 @@ export async function getMylistAll() {
 
 export async function getMusic(id:string) : Promise<musicProps[]> {
     const db = await dbPromise;
-    const data = (await db.getAll(MUSIC_STORE_NAME)).filter(music => music.mylistId !== id);
+    const data = (await db.getAll(MUSIC_STORE_NAME)).filter(music => music.mylistId === id);
     console.log(data);
     return data;
 }
