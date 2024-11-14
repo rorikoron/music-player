@@ -8,8 +8,15 @@ const cover = computed(() => {
   if(!state.cover) return '';
   return  URL.createObjectURL(state.cover);
 })
-
 const musiclistRef = ref<typeof Musiclist>();
+
+watch(
+  ()=> state.id,
+  () => {
+    musiclistRef.value?.refreshMusic(state.id);
+  }
+)
+
 
 const handleFileChange = async (e : Event) => {
   const blob = await eventToBlob(e);
@@ -21,7 +28,7 @@ const handleFileChange = async (e : Event) => {
   const audioLength = await getAudioDuration(blob);
   addMusic({title, lastUpdate, blob, audioLength, mylistId: state.id!});
 
-  musiclistRef.value?.refreshMusic();
+  musiclistRef.value?.refreshMusic(state.id);
 }
 
 
@@ -55,6 +62,7 @@ const handleFileChange = async (e : Event) => {
         <UButton color="gray" variant="ghost" icon="i-mdi-music-note-plus"/>
         <input type="file" class="absolute top-0 left-0 opacity-0 h-full w-full z-0" accept=".mp3,.wav" @change="handleFileChange">
       </div>
+      <UDivider />
 
       <div class="h-full w-full">
         <Musiclist ref="musiclistRef" :mylist-id="state.id ?? ''"/>

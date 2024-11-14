@@ -8,10 +8,12 @@ const props = defineProps({
         required: true
     }
 })
+const tableHeader = ['#', 'Title', 'Published Date', 'Audio Length']
+
 const musiclist = ref<musicProps[]>([]);
 
 onMounted(async () => {
-    refreshMusic();
+    refreshMusic(props.mylistId);
 })
 
 
@@ -23,9 +25,20 @@ defineExpose({refreshMusic})
 </script>
 
 <template>
-    <div>
-        <div v-for="music in musiclist">
-            {{ music.title }}
-        </div>
-    </div>
+    <table class="w-full ">
+        <thead>
+            <tr class="text-left p-4">
+                <th v-for="header in tableHeader" class="p-2">{{ header }}</th>
+            </tr>
+        </thead>
+        <tbody class="[&_th]:p-4">
+            <tr v-for="(music, i) in musiclist" class="hover:bg-neutral-200 transition-all [&>td]:py-4 [&>td]:px-2 cursor-pointer" >
+                <MusicCell 
+                    :key="i" 
+                    :music="music" 
+                    :idx="i+1" 
+                />
+            </tr>
+        </tbody>
+    </table>
 </template>
